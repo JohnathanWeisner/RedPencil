@@ -1,0 +1,4 @@
+RedPencil
+=========
+
+Red Pencil Kata
