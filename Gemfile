@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'faker'
 end
 
 group :test do
