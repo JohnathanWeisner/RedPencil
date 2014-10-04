@@ -1,0 +1,4 @@
+.row
+  -product_row.each do |product|
+    .col-xs-3
+      = render :partial => "product", locals: {product: product} 

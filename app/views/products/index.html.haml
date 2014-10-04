@@ -1,8 +1,2 @@
--@products.each do |product|
-  .product
-    .product-name 
-      =product.name
-    .product-description 
-      =product.description
-    .product-description 
-      =product.price
+-@products.each_slice(4) do |product_row|
+  = render :partial => "product_row", locals: {product_row: product_row} 
