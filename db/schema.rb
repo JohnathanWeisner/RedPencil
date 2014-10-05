@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141004224259) do
+ActiveRecord::Schema.define(version: 20141005210246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +20,21 @@ ActiveRecord::Schema.define(version: 20141004224259) do
     t.string   "name"
     t.text     "description"
     t.integer  "price"
-    t.datetime "red_pencil_tag_started_at"
+    t.datetime "price_updated_at", default: '2014-10-05 21:20:10'
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "red_pencil_tags", force: true do |t|
+    t.integer  "product_id"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "starting_price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "red_pencil_tags", ["product_id"], name: "index_red_pencil_tags_on_product_id", using: :btree
 
   create_table "versions", force: true do |t|
     t.string   "item_type",  null: false

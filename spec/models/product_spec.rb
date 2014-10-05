@@ -52,7 +52,7 @@ RSpec.describe Product, '.price_stable?' do
       product = create(:product)
       product.price = 96
       product.save
-      product.updated_at = Time.now.to_date - 29
+      product.price_updated_at = Time.now.to_date - 29
       expect(product.price_stable?).to eq false
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Product, '.price_stable?' do
 
 
     it 'should return true if price has only changed 31 days prior' do
-      product = create(:product, {updated_at: (Time.now.to_date - 31) })
+      product = create(:product, {price_updated_at: (Time.now.to_date - 31) })
       expect(product.price_stable?).to eq true
     end
   end
@@ -72,20 +72,23 @@ end
 RSpec.describe Product, '.tag_sale_over?' do
   with_versioning do
     it 'should return true if the sale lasted longer than 30 days' do
-      product = create(:product, 
-        {red_pencil_tag_started_at: (Time.now.to_date - 31) })
+      product = create(:product)
+      product.create_red_pencil_tag(
+        started_at: (Time.now.to_date - 31))
       expect(product.tag_sale_over?).to eq true
     end
 
     it 'should return false if the sale lasted only 1 day' do
-      product = create(:product, 
-        {red_pencil_tag_started_at: (Time.now.to_date - 1) })
+      product = create(:product)
+      product.create_red_pencil_tag(
+        started_at: (Time.now.to_date - 1))
       expect(product.tag_sale_over?).to eq false
     end
 
     it 'should return false if the sale lasted only 29 day' do
-      product = create(:product, 
-        {red_pencil_tag_started_at: (Time.now.to_date - 29) })
+      product = create(:product)
+      product.create_red_pencil_tag(
+        started_at: (Time.now.to_date - 29))
       expect(product.tag_sale_over?).to eq false
     end
   end
