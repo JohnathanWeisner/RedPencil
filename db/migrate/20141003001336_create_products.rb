@@ -4,7 +4,7 @@ class CreateProducts < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.integer :price
-      t.boolean :red_pencil_tag, :default => false
+      t.datetime :red_pencil_tag_started_at
 
       t.timestamps
     end

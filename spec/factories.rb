@@ -5,6 +5,5 @@ FactoryGirl.define do
     end
     description "The best pet in the world."
     price 100
-    red_pencil_tag false
   end
 end

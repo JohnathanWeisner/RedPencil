@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20141004224259) do
     t.string   "name"
     t.text     "description"
     t.integer  "price"
-    t.boolean  "red_pencil_tag", default: false
+    t.datetime "red_pencil_tag_started_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -61,6 +61,7 @@ RSpec.describe Product, '.price_stable?' do
       expect(product.price_stable?).to eq true
     end
 
+
     it 'should return true if price has only changed 31 days prior' do
       product = create(:product, {updated_at: (Time.now.to_date - 31) })
       expect(product.price_stable?).to eq true
