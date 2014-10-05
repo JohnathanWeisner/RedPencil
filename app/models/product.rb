@@ -17,8 +17,13 @@ class Product < ActiveRecord::Base
 
   def price_stable?
     date_limit = (Time.now.to_date - 30)
-    return true if updated_at.to_date < date_limit || 
-      created_at == updated_at
-    false
+    updated_at.to_date < date_limit || created_at == updated_at
+  end
+
+  def tag_sale_over?
+    red_pencil_tag_started_at < (Time.now.to_date - 30)
+  end
+
+  def price_increased?
   end
 end
