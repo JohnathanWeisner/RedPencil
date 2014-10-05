@@ -25,5 +25,6 @@ class Product < ActiveRecord::Base
   end
 
   def price_increased?
+    previous_version.price < price
   end
 end

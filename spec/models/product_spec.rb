@@ -90,3 +90,21 @@ RSpec.describe Product, '.tag_sale_over?' do
     end
   end
 end
+
+RSpec.describe Product, '.price_increased?' do
+  with_versioning do
+    it 'should return true if price increase from 100 to 101' do
+      product = create(:product)
+      product.price = 101
+      product.save
+      expect(product.price_increased?).to eq true
+    end
+
+    it 'should return false if price decreased from 100 to 99' do
+      product = create(:product)
+      product.price = 99
+      product.save
+      expect(product.price_increased?).to eq false
+    end
+  end
+end
