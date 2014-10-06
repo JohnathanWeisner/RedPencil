@@ -2,7 +2,11 @@ RedPencil
 =========
 
 Red Pencil Kata
-User stories
+For up to date tasks check out the trello board 
+
+https://trello.com/b/6ruhJ5FV/red-pencil-kata
+
+#User stories
 ##~~A red pencil promotion starts due to a price reduction. The price has to be reduced by at least 5% but at most bei 30% and the previous price had to be stable for at least 30 days.~~
 ####Finished this story
 
