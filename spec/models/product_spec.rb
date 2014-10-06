@@ -93,5 +93,21 @@ RSpec.describe Product do
         expect(product.price_increased?).to eq false
       end
     end
+
+    it "expect product to receive red_tag_check! before save" do
+      expect(product).to receive(:red_tag_check!)
+      product.save
+    end
+
+
+    it "#red_tag_check! should start a red tag sale if price has reduced between 5% and 30%" do
+      product.price_updated_at = Time.now.to_date - 31
+      product.save
+      product.price = 85
+      product.save
+      tag_started_at = product.red_pencil_tag.started_at.to_date
+      expect(tag_started_at).to eq(Time.now.to_date)
+      expect(product.red_pencil_tag.ended_at).to be_nil
+    end
   end
 end

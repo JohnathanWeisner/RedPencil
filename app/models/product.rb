@@ -1,16 +1,21 @@
 class Product < ActiveRecord::Base
+  has_one :red_pencil_tag, dependent: :destroy
+  before_save :red_tag_check!
+
   has_paper_trail
-  has_one :red_pencil_tag
 
   def price_usd
     "$%.2f" % (self[:price]/100.0)
   end
 
   def price_change_threshold?
-    previous_price = previous_version.price.to_f
-    if previous_price > price
-      percent = 100 - ((price / previous_price) * 100)
-      return true if percent >= 5 && percent <=30
+    prev_version = previous_version
+    if prev_version
+      previous_price = prev_version.price.to_f
+      if previous_price > price
+        percent = 100 - ((price / previous_price) * 100)
+        return true if percent >= 5 && percent <=30
+      end
     end
     false
   end
@@ -27,5 +32,11 @@ class Product < ActiveRecord::Base
 
   def price_increased?
     previous_version.price < price
+  end
+
+  private
+
+  def red_tag_check!
+    create_red_pencil_tag(started_at: DateTime.now) if price_change_threshold?
   end
 end
