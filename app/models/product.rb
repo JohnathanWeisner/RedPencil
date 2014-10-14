@@ -5,7 +5,7 @@ class Product < ActiveRecord::Base
   has_paper_trail
 
   def price_usd
-    sprintf('$%.2f', (price / 100.0))
+    sprintf('$%.2f', price / 100.0)
   end
 
   def price_change_threshold?
@@ -35,8 +35,7 @@ class Product < ActiveRecord::Base
   private
 
   def red_tag_check!
-    if price_change_threshold? && price_stable?
-      create_red_pencil_tag(started_at: DateTime.now)
-    end
+    return unless price_change_threshold? && price_stable?
+    create_red_pencil_tag(started_at: DateTime.now)
   end
 end
