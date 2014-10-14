@@ -62,20 +62,17 @@ RSpec.describe Product do
 
     describe '#tag_sale_over?' do
       it 'returns true if the sale lasted longer than 30 days' do
-        product.create_red_pencil_tag(
-          started_at: 31.days.ago)
+        product.create_red_pencil_tag(started_at: 31.days.ago)
         expect(product.tag_sale_over?).to be true
       end
 
       it 'returns false if the sale lasted only 1 day' do
-        product.create_red_pencil_tag(
-          started_at: 1.day.ago)
+        product.create_red_pencil_tag(started_at: 1.day.ago)
         expect(product.tag_sale_over?).to be false
       end
 
       it 'returns false if the sale lasted only 29 day' do
-        product.create_red_pencil_tag(
-          started_at: 29.days.ago)
+        product.create_red_pencil_tag(started_at: 29.days.ago)
         expect(product.tag_sale_over?).to be false
       end
     end
@@ -94,8 +91,8 @@ RSpec.describe Product do
       end
     end
 
-    describe '.red_tag_check!' do
-      it 'expect product to receive red_tag_check! before save' do
+    describe '#red_tag_check!' do
+      it 'product receives #red_tag_check! before save' do
         expect(product).to receive(:red_tag_check!)
         product.save
       end
@@ -107,6 +104,23 @@ RSpec.describe Product do
         product.save
         expect(product.red_pencil_tag).to_not be_nil
         expect(product.red_pencil_tag.ended_at).to be_nil
+      end
+
+      it 'does not start a new red tag sale when price drops more than 30%' do
+        product.price_updated_at = 31.days.ago
+        product.save
+        product.price = 69
+        product.save
+        expect(product.red_pencil_tag).to be_nil
+      end
+
+      it 'does not start a new red tag sale if price was not stable 30 days' do
+        product.price_updated_at = 29.days.ago
+        product.save
+        product.price = 85
+        product.save
+        
+        expect(product.red_pencil_tag).to be_nil
       end
     end
   end
