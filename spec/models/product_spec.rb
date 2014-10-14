@@ -119,7 +119,6 @@ RSpec.describe Product do
         product.save
         product.price = 85
         product.save
-        
         expect(product.red_pencil_tag).to be_nil
       end
     end
