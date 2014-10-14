@@ -9,25 +9,24 @@ class Product < ActiveRecord::Base
   end
 
   def price_change_threshold?
-    prev_version = previous_version
-    if prev_version
-      previous_price = prev_version.price.to_f
-      if previous_price > price
-        percent = 100 - ((price / previous_price) * 100)
-        return true if percent >= 5 && percent <=30
-      end
+    if previous_version &&
+      (previous_price = previous_version.price.to_f) &&
+      previous_price > price
+
+      percent_change = 100 - (price / previous_price) * 100
+      return true if percent_change >= 5 && percent_change <=30
     end
     false
   end
 
   def price_stable?
-    date_limit = (Time.now.to_date - 30)
+    date_limit = 30.days.ago
     price_updated_at.to_date < date_limit || created_at == updated_at
   end
 
   def tag_sale_over?
     tag = red_pencil_tag
-    tag && tag.started_at < (Time.now.to_date - 30)
+    tag && tag.started_at < 30.days.ago
   end
 
   def price_increased?
